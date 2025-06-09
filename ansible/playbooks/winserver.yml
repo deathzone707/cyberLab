@@ -1,0 +1,65 @@
+---
+- name: Configure Windows Server with BadBlood AD
+  hosts: all
+  roles:
+  - common
+  gather_facts: no
+  vars:
+    ansible_user: vagrant
+    ansible_password: vagrant
+    ansible_connection: winrm
+    ansible_winrm_transport: basic
+    ansible_port: 5985
+
+  tasks:
+    - name: Install AD-Domain-Services and DNS
+      win_feature:
+        name:
+          - AD-Domain-Services
+          - DNS
+        include_management_tools: yes
+        state: present
+
+    - name: Promote server to domain controller
+      win_domain:
+        dns_domain_name: domain.local
+        safe_mode_password: Password123!
+        domain_netbios_name: DOMAIN
+      register: domain_result
+      ignore_errors: true
+
+    - name: Reboot after domain promotion
+      win_reboot:
+        msg: "Rebooting after domain promotion"
+        reboot_timeout: 900
+      when: domain_result.changed
+
+    - name: Install Git for Windows
+      win_chocolatey:
+        name: git
+        state: present
+
+    - name: Download BadBlood
+      win_git:
+        repo: https://github.com/davidprowe/BadBlood.git
+        dest: C:\Tools\BadBlood
+
+    - name: Run BadBlood to populate AD
+      win_shell: |
+        cd C:\Tools\BadBlood
+        powershell.exe -ExecutionPolicy Bypass -File .\Invoke-BadBlood.ps1
+      args:
+        chdir: C:\Tools\BadBlood
+      register: badblood_run
+      ignore_errors: true
+
+    - name: Disable Windows Defender and Firewall
+      win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection
+        name: DisableRealtimeMonitoring
+        data: 1
+        type: dword
+
+    - name: Turn off all firewall profiles
+      win_shell: |
+        Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled False

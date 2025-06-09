@@ -1,0 +1,31 @@
+---
+- name: Validate and configure Metasploitable 2
+  hosts: all
+  roles:
+  - common
+  become: true
+
+  tasks:
+    - name: Ensure networking tools are present
+      apt:
+        name:
+          - net-tools
+          - iputils-ping
+        state: present
+
+    - name: Print network configuration
+      command: ifconfig
+      register: ifconfig_output
+
+    - name: Show network configuration
+      debug:
+        var: ifconfig_output.stdout
+
+    - name: Ping Kali VM to validate lab communication
+      command: ping -c 4 kali.local
+      ignore_errors: true
+      register: ping_result
+
+    - name: Display ping output
+      debug:
+        var: ping_result.stdout

@@ -1,0 +1,60 @@
+---
+- name: Configure Metasploitable 3 (Linux)
+  hosts: all
+  roles:
+  - common
+  become: true
+
+  tasks:
+    - name: Update package index
+      apt:
+        update_cache: yes
+
+    - name: Install useful tools
+      apt:
+        name:
+          - net-tools
+          - curl
+          - wget
+          - vim
+          - unzip
+          - python3
+          - iputils-ping
+          - nmap
+          - socat
+        state: present
+
+    - name: Ensure PostgreSQL client tools are available
+      apt:
+        name: postgresql-client
+        state: present
+
+    - name: Check IP address
+      command: hostname -I
+      register: ip_output
+
+    - name: Print IP address
+      debug:
+        var: ip_output.stdout
+
+    - name: Attempt ping to Kali host
+      command: ping -c 4 kali.local
+      ignore_errors: true
+      register: ping_test
+
+    - name: Show ping results
+      debug:
+        var: ping_test.stdout
+
+    - name: Create local tools directory
+      file:
+        path: /opt/tools
+        state: directory
+        mode: '0755'
+
+    - name: (Optional) Clone a vulnerable app repository
+      git:
+        repo: https://github.com/rapid7/metasploitable3
+        dest: /opt/tools/metasploitable3
+        version: master
+      ignore_errors: yes

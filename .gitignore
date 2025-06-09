@@ -1,6 +1,37 @@
+# OS junk files
+.DS_Store
+Thumbs.db
+
+# Vagrant
+.vagrant/
+*.box
+
+# Ansible
+*.retry
 *.log
-*.qcow2
-*.vmdk
-tmp/
-*.iso
-__pycache__/
+host_vars/
+group_vars/
+inventory/
+
+# Podman/Docker
+*.pid
+*.log
+*.sock
+container-volumes/
+container-data/
+
+# Packer
+packer_cache/
+output-*/
+
+# Logs
+*.log
+
+# Secrets (optional if stored)
+secrets.yml
+vault.yml
+.env
+
+# Archive files
+*.zip
+*.tar.gz

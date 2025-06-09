@@ -1,0 +1,49 @@
+---
+- name: Configure Kali Linux for Cyber Lab
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update and upgrade all packages
+      apt:
+        update_cache: yes
+        upgrade: dist
+
+    - name: Install required packages (Podman, Pip)
+      apt:
+        name:
+          - podman
+          - python3-pip
+        state: present
+
+    - name: Install podman-compose via pip3
+      pip:
+        name: podman-compose
+        executable: pip3
+
+    - name: Enable lingering for vagrant user (allows rootless services)
+      command: loginctl enable-linger vagrant
+      ignore_errors: true
+
+    - name: Create webapps directory in user's home
+      file:
+        path: /home/vagrant/webapps
+        state: directory
+        owner: vagrant
+        group: vagrant
+        mode: '0755'
+
+    - name: Copy podman-compose.yml to Kali user home
+      copy:
+        src: /vagrant/podman/webapps/podman-compose.yml
+        dest: /home/vagrant/webapps/podman-compose.yml
+        owner: vagrant
+        group: vagrant
+        mode: '0644'
+
+    - name: Start vulnerable web apps with podman-compose
+      become: false
+      become_user: vagrant
+      shell: |
+        cd /home/vagrant/webapps
+        podman-compose up -d

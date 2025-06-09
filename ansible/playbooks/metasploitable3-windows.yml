@@ -1,0 +1,48 @@
+---
+- name: Configure Metasploitable 3 - Windows
+  hosts: all
+  roles:
+  - common
+  gather_facts: no
+  vars:
+    ansible_user: vagrant
+    ansible_password: vagrant
+    ansible_connection: winrm
+    ansible_winrm_transport: basic
+    ansible_port: 5985
+
+  tasks:
+    - name: Create C:\Tools directory
+      win_file:
+        path: C:\Tools
+        state: directory
+
+    - name: Download Sysinternals Suite
+      win_get_url:
+        url: https://download.sysinternals.com/files/SysinternalsSuite.zip
+        dest: C:\Tools\SysinternalsSuite.zip
+
+    - name: Unzip Sysinternals
+      win_unzip:
+        src: C:\Tools\SysinternalsSuite.zip
+        dest: C:\Tools\Sysinternals
+        creates: C:\Tools\Sysinternals\PsExec.exe
+
+    - name: Disable Windows Defender Realtime Protection
+      win_regedit:
+        path: HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection
+        name: DisableRealtimeMonitoring
+        data: 1
+        type: dword
+
+    - name: Disable Firewall (Domain, Private, Public)
+      win_shell: |
+        Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled False
+
+    - name: Set Execution Policy to Unrestricted
+      win_shell: Set-ExecutionPolicy Unrestricted -Force
+
+    - name: Create C:\payloads directory
+      win_file:
+        path: C:\payloads
+        state: directory

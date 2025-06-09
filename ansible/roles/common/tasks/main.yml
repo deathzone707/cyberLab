@@ -1,0 +1,22 @@
+---
+- name: Disable Windows Defender
+  win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows Defender\Real-Time Protection
+    name: DisableRealtimeMonitoring
+    data: 1
+    type: dword
+  when: ansible_os_family == 'Windows'
+
+- name: Disable Windows Firewall (all profiles)
+  win_shell: |
+    Set-NetFirewallProfile -Profile Domain,Private,Public -Enabled False
+  when: ansible_os_family == 'Windows'
+
+- name: Ensure basic Linux tools are present
+  apt:
+    name:
+      - net-tools
+      - curl
+      - vim
+    state: present
+  when: ansible_os_family == 'Debian'
