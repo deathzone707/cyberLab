@@ -37,6 +37,11 @@ This project builds a fully automated offensive, defensive and hybrid (purple te
    chmod +x scripts/update-hosts.sh
    ./scripts/update-hosts.sh
    ```
+5. **(Optional) Run Logging Setup**
+   ```bash
+   chmod +x scripts/setup-logging.sh
+   ./scripts/setup-logging.sh
+   ```
 
 ## 🧠 Prerequisites
 
