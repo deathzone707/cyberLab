@@ -33,7 +33,7 @@ setup_network_bridge() {
 setup_bridge_slave() {
   echo "🧷 Bind physical NIC to bridge..."
   read -p "Enter your physical network interface (e.g., enp0s31f6): " nic
-  sudo nmcli connection add type ethernet con-name bridge-slave ifname $nic master br0
+  sudo nmcli connection add type ethernet con-name bridge-slave ifname "$nic" master br0
 }
 
 create_red_vm() {
@@ -64,8 +64,12 @@ import_vulnhub_vm() {
     echo "🔧 Extracting and importing OVA..."
     mkdir -p ~/vulnhub-vms/tmp
     tar -xf "$vulnpath" -C ~/vulnhub-vms/tmp
-    ovafile=$(find ~/vulnhub-vms/tmp -name "*.ovf")
-    virt-import --name vulnhub-import       --memory 2048 --vcpus 2       --disk ~/vulnhub-vms/tmp/*.vmdk       --os-variant generic       --network bridge=br0 --graphics spice
+    vmdkfile=$(find ~/vulnhub-vms/tmp -name "*.vmdk" | head -n 1)
+    virt-install --name vulnhub-import \
+      --memory 2048 --vcpus 2 \
+      --disk path="$vmdkfile",format=vmdk \
+      --os-variant generic --network bridge=br0 \
+      --graphics spice --import --noautoconsole
   else
     echo "⚙️ Starting ISO-based VM install..."
     virt-install --name vulnhub-vm       --memory 2048 --vcpus 2       --disk path=/var/lib/libvirt/images/vulnhub-vm.qcow2,size=20       --cdrom "$vulnpath"       --os-variant generic --network bridge=br0       --graphics spice --boot useserial=on --noautoconsole
