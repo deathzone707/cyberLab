@@ -1,0 +1,49 @@
+---
+- name: Setup Fedora Cyber Lab Environment
+  hosts: localhost
+  become: yes
+
+  tasks:
+    - name: Ensure virtualization and tools are installed
+      dnf:
+        name:
+          - qemu-kvm
+          - virt-manager
+          - libvirt
+          - bridge-utils
+          - spice-gtk
+          - swtpm
+          - edk2-ovmf
+          - genisoimage
+          - docker
+          - podman
+          - unzip
+          - wget
+        state: present
+
+    - name: Enable and start libvirtd
+      systemd:
+        name: libvirtd
+        enabled: yes
+        state: started
+
+    - name: Setup bridge network interface br0
+      nmcli:
+        conn_name: br0
+        ifname: br0
+        type: bridge
+        ip4: 192.168.99.1/24
+        state: present
+
+    - name: Prompt for physical interface
+      pause:
+        prompt: "Enter your physical network interface to bridge (e.g., enp0s31f6)"
+      register: nic_input
+
+    - name: Attach physical NIC to bridge
+      nmcli:
+        conn_name: bridge-slave
+        ifname: "{{ nic_input.user_input }}"
+        type: ethernet
+        master: br0
+        state: present
