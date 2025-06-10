@@ -45,6 +45,17 @@ Supported on Debian/Ubuntu, Fedora and Arch systems.
    ./scripts/setup-logging.sh
    ```
 
+## 💿 Windows Evaluation ISOs
+
+`setup.sh` builds the Windows boxes using evaluation media that cannot be
+redistributed. Download the ISOs manually from Microsoft and place them in an
+`iso/` directory at the project root **before** running the script.
+
+- **Windows 10 Enterprise** – [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-10-enterprise)
+  - save as `iso/Win10_English_x64.iso`
+- **Windows Server 2019** – [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019)
+  - save as `iso/Windows_Server_2019.iso`
+
 ## 🧠 Prerequisites
 
 - Linux host with VirtualBox or KVM
