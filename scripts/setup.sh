@@ -32,17 +32,17 @@ fi
 echo "[*] Installing Packer and Vagrant dependencies..."
 vagrant box list | grep "metasploitable3" || echo "No metasploitable3 boxes yet"
 
-echo "[*] Building Metasploitable 3 Linux box..."
-PACKER_BUILDER_TYPE=virtualbox-iso packer build windows_10.json
+echo "[*] Building Metasploitable 3 Windows box..."
+PACKER_BUILDER_TYPE=virtualbox-iso packer build windows_2008_r2.json
 
-echo "[*] Adding Metasploitable 3 Linux box to Vagrant..."
-vagrant box add metasploitable3-win windows_10_virtualbox.box --force
+echo "[*] Adding Metasploitable 3 Windows box to Vagrant..."
+vagrant box add metasploitable3-win windows_2008_r2_virtualbox.box --force
 
 echo "[*] Building Metasploitable 3 Ubuntu box..."
-PACKER_BUILDER_TYPE=virtualbox-iso packer build ubuntu1804.json
+PACKER_BUILDER_TYPE=virtualbox-iso packer build ubuntu_1404.json
 
 echo "[*] Adding Metasploitable 3 Ubuntu box to Vagrant..."
-vagrant box add metasploitable3-linux ubuntu1804_virtualbox.box --force
+vagrant box add metasploitable3-linux ubuntu_1404_virtualbox.box --force
 
 cd ..
 
