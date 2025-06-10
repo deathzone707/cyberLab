@@ -14,6 +14,20 @@ This project builds a fully automated offensive, defensive and hybrid (purple te
 - 📜 **Vagrant Integration** – Multi‑VM lab management via Vagrantfile
 - 🧰 **Launcher & Teardown Scripts** – Full CLI automation experience
 
+## 🧠 Prerequisites
+
+These manual steps must be completed before running the Quick Start commands.
+
+- Linux host with VirtualBox or KVM
+- **Minimum specs**
+  - 32 GB RAM (64 GB recommended)
+  - 8‑core CPU
+  - 100+ GB free disk space
+- **Required packages:** `vagrant`, `virtualbox`, `ansible`, `podman`, etc. (`setup.sh` can install them on supported distros.)
+- **Windows evaluation ISOs** – download from Microsoft and place them in an `iso/` directory **before** running the setup script:
+  - [Windows 10 Enterprise](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-10-enterprise) → `iso/Win10_English_x64.iso`
+  - [Windows Server 2019](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019) → `iso/Windows_Server_2019.iso`
+
 ## 🚀 Quick Start
 
 Supported on Debian/Ubuntu, Fedora and Arch systems.
@@ -45,28 +59,6 @@ Supported on Debian/Ubuntu, Fedora and Arch systems.
    ./scripts/setup-logging.sh
    ```
 
-## 💿 Windows Evaluation ISOs
-
-`setup.sh` builds the Windows boxes using evaluation media that cannot be
-redistributed. Download the ISOs manually from Microsoft and place them in an
-`iso/` directory at the project root **before** running the script.
-
-- **Windows 10 Enterprise** – [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-10-enterprise)
-  - save as `iso/Win10_English_x64.iso`
-- **Windows Server 2019** – [Microsoft Evaluation Center](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019)
-  - save as `iso/Windows_Server_2019.iso`
-
-## 🧠 Prerequisites
-
-- Linux host with VirtualBox or KVM
-- **Minimum specs**
-  - 32 GB RAM (64 GB recommended)
-  - 8‑core CPU
-  - 100+ GB free disk space
-- **Required packages:** `vagrant`, `virtualbox`, `ansible`, `podman`, etc.
-
-`setup.sh` installs all dependencies.
-
 ## 📁 Directory Structure
 
 ```text
@@ -90,7 +82,7 @@ cyberLab/
 | Name                    | Role                        | Provisioned With          |
 |-------------------------|-----------------------------|---------------------------|
 | kali                    | Red Team base               | Kali + Podman + Tools     |
-| metasploitable2         | Vulnerable Linux target     | Legacy VM                 |
+| metasploitable2         | Vulnerable Linux target     | Legacy VM                |
 | metasploitable3-linux   | Advanced vuln Linux         | Ubuntu + Ansible              |
 | metasploitable3-windows | Windows target              | Windows 10 + WinRM              |
 | winserver               | Domain Controller + AD      | Windows Server + BadBlood |
@@ -101,7 +93,7 @@ MIT License. Free to use, adapt, and extend.
 
 ## ✉️ Maintainer
 
-Austin Dunn  
-Principal Security Engineer  
+Austin Dunn
+Principal Security Engineer
 📧 austin@austindunn.us
 
