@@ -26,7 +26,7 @@ This project builds a fully automated offensive, defensive and hybrid (purple te
    chmod +x scripts/setup.sh
    ./scripts/setup.sh
    ```
-   This installs dependencies and builds Metasploitable 3 boxes automatically.
+   This installs all required dependencies.
 3. **Launch the lab**
    ```bash
    chmod +x scripts/launcher.sh
@@ -50,7 +50,7 @@ This project builds a fully automated offensive, defensive and hybrid (purple te
   - 32 GB RAM (64 GB recommended)
   - 8‑core CPU
   - 100+ GB free disk space
-- **Required packages:** `vagrant`, `virtualbox`, `ansible`, `packer`, `podman`, etc.
+- **Required packages:** `vagrant`, `virtualbox`, `ansible`, `podman`, etc.
 
 `setup.sh` installs all dependencies.
 
@@ -64,7 +64,7 @@ cyberLab/
 ├── podman/
 │   └── webapps/               # DVWA, Juice Shop + podman-compose.yml
 ├── scripts/
-│   ├── setup.sh               # Dependency installer + MSF3 box builder
+│   ├── setup.sh               # Dependency installer
 │   ├── launcher.sh            # Interactive launcher for lab components
 │   ├── teardown.sh            # Stops and removes all VMs + boxes
 │   └── update-hosts.sh        # Generates /etc/hosts entries for VMs
@@ -78,8 +78,8 @@ cyberLab/
 |-------------------------|-----------------------------|---------------------------|
 | kali                    | Red Team base               | Kali + Podman + Tools     |
 | metasploitable2         | Vulnerable Linux target     | Legacy VM                 |
-| metasploitable3-linux   | Advanced vuln Linux         | MSF3/Ansible              |
-| metasploitable3-windows | Windows target              | MSF3 + WinRM              |
+| metasploitable3-linux   | Advanced vuln Linux         | Ubuntu + Ansible              |
+| metasploitable3-windows | Windows target              | Windows 10 + WinRM              |
 | winserver               | Domain Controller + AD      | Windows Server + BadBlood |
 
 ## 🔒 License
