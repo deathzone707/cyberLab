@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     msf2.vm.hostname = "msf2"
     msf2.vm.network "private_network", type: "dhcp"
     msf2.vm.provision "ansible" do |ansible|
-      ansible.playbook = "ansible/playbooks/metasploitable.yml"
+      ansible.playbook = "ansible/playbooks/metasploitable2.yml"
     end
   end
 
@@ -24,7 +24,7 @@ Vagrant.configure("2") do |config|
     msf3l.vm.hostname = "msf3linux"
     msf3l.vm.network "private_network", type: "dhcp"
     msf3l.vm.provision "ansible" do |ansible|
-      ansible.playbook = "ansible/playbooks/metasploitable3-linux.yml"
+      ansible.playbook = "ansible/playbooks/metasploitable3.yml"
     end
   end
 
