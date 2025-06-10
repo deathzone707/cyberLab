@@ -16,6 +16,8 @@ This project builds a fully automated offensive, defensive and hybrid (purple te
 
 ## 🚀 Quick Start
 
+Supported on Debian/Ubuntu, Fedora and Arch systems.
+
 1. **Download and extract**
    ```bash
    unzip cyberLab.zip
