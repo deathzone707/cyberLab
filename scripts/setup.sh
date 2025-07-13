@@ -15,10 +15,19 @@ packages=(
     python3-pip
     libvirt-daemon-system
     qemu-kvm
+    podman
 )
 
 echo "[*] Detecting package manager..."
-if command -v apt >/dev/null 2>&1; then
+# Detect if running on NixOS first
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+fi
+if [ "$ID" = "nixos" ]; then
+    echo "NixOS detected. Please install the following packages manually:" >&2
+    printf '  - %s\n' "${packages[@]}" >&2
+    exit 0
+elif command -v apt >/dev/null 2>&1; then
     PM="apt"
 elif command -v dnf >/dev/null 2>&1; then
     PM="dnf"

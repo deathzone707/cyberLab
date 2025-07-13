@@ -23,7 +23,12 @@ These manual steps must be completed before running the Quick Start commands.
   - 32 GB RAM (64 GB recommended)
   - 8‑core CPU
   - 100+ GB free disk space
-- **Required packages:** `vagrant`, `virtualbox`, `ansible`, `podman`, etc. (`setup.sh` can install them on supported distros.)
+- **Required packages:**
+  `vagrant`, `virtualbox`, `virtualbox-ext-pack`, `ansible`, `packer`,
+  `unzip`, `git`, `curl`, `wget`, `python3-pip`, `libvirt-daemon-system`,
+  `qemu-kvm`, `podman`
+  (`setup.sh` can install them on supported distros)
+- **NixOS users** – install these packages manually before running `setup.sh`
 - **Windows evaluation ISOs** – download from Microsoft and place them in an `iso/` directory **before** running the setup script:
   - [Windows 10 Enterprise](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-10-enterprise) → `iso/Win10_English_x64.iso`
   - [Windows Server 2019](https://www.microsoft.com/en-us/evalcenter/evaluate-windows-server-2019) → `iso/Windows_Server_2019.iso`
@@ -31,6 +36,7 @@ These manual steps must be completed before running the Quick Start commands.
 ## 🚀 Quick Start
 
 Supported on Debian/Ubuntu, Fedora and Arch systems.
+On NixOS, install the required packages manually before running the script.
 
 1. **Download and extract**
    ```bash
